@@ -96,3 +96,18 @@ MYSQL_USER = 'light'             #数据库账号，请修改
 MYSQL_PASSWD = '123456'         #数据库密码，请修改
 
 MYSQL_PORT = 3306               #数据库端口，在dbhelper中使用
+
+# splash配置
+SPLASH_URL = 'http://172.17.0.2:8050/'  # splash在docker下的url
+# 下载中间件，
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy_splash.SplashCookiesMiddleware': 723,
+    'scrapy_splash.SplashMiddleware': 725,
+    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+}
+# 爬虫中间件
+SPIDER_MIDDLEWARES = {
+    'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
+}
+DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'  # 去重过滤器（必须）
+HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage' # 使用http缓存 
