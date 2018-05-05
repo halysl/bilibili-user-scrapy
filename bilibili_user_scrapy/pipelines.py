@@ -44,7 +44,7 @@ class BilibiliUserScrapyPipeline(object):
                 self.cursor.execute(sql)
             self.connect.commit()
         except Exception as error:
-            log(error)
+            print("error")
         return item
 
     # @classmethod
