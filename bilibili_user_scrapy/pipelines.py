@@ -21,30 +21,32 @@ class BilibiliUserScrapyPipeline(object):
 
     def process_item(self, item, spider):
         try:
-            self.cursor.execute("""select * from bilibili_user_info where id=%d""", item['uid'])
+            self.cursor.execute("""select * from bilibili_user_info where id=%s""", item['uid'])
             ret = self.cursor.fetchone()
             if ret:
-                sql = """update bilibili_user_info set id=%d,name=%s,sex=%s,coins=%d,
-                regtime=%s,birthday=%s,place=%s,fans=%d,friend=%d,attention=%d,level=%d,
-                exp=%d where id=%d"""%(
-                    item["uid"],item["name"],item["sex"],
-                    item["coins"],item["regtime"],item["birthday"],
-                    item["place"],item["fans"],item["friend"],
-                    item["attention"],item["level"],item["exp"],item["uid"])
+                sql = """update bilibili_user_info set 
+                    mid=%s,name=%s,sex=%s,
+                    regtime=%s,birthday=%s,place=%s,
+                    fans=%s,attention=%s,level=%s 
+                    where id=%s"""%(
+                    item["mid"],item["name"],item["sex"],
+                    item["regtime"],item["birthday"],item["place"],
+                    item["fans"],item["attention"],item["level"],
+                    item["uid"])
                 self.cursor.execute(sql)
             else:
                 sql = """insert into bilibili_user_info(
-                id,name,sex,coins,regtime,birthday,place,
+                mid,name,sex,coins,regtime,birthday,place,
                 fans,friend,attention,level,exp) 
-                values(%d,%s,%s,%d,%s,%s,%s,%d,%d,%d,%d,%d)"""%(
-                    item["uid"],item["name"],item["sex"],
-                    item["coins"],item["regtime"],item["birthday"],
-                    item["place"],item["fans"],item["friend"],
-                    item["attention"],item["level"],item["exp"])
+                values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""%(
+                    item['uid'],item["mid"],item["name"],
+                    item["sex"],item["regtime"],item["birthday"],
+                    item["place"],item["fans"],item["attention"],
+                    item["level"])
                 self.cursor.execute(sql)
             self.connect.commit()
         except Exception as error:
-            print("error")
+            print("error",error)
         return item
 
     # @classmethod
