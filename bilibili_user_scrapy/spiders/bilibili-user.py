@@ -63,21 +63,13 @@ class BILIBILIUserSpider(Spider):
     name = "bilibili_user_scrapy"
     headers = {'User-Agent':random.choice(ua_list),
                'Referer':'http://space.bilibili.com/'+str(random.randint(9000,10000))+'/'}
-    start_urls = ["https://space.bilibili.com/4505459#/",]
+    start_urls = ["https://space.bilibili.com/4505469#/",]
 
     def start_requests(self):
         for url in self.start_urls:
-            yield Request(url=url, callback=self.parse, meta={
-                'splash':{
-                    'args':{
-                        'html':1,
-                        'png':1,
-                    },
-
-                    'endpoint':'render.html',
-                    'splash_headers':headers,
-                }
-            })
+            yield SplashRequest(url=url, callback=self.parse, args={'wait':0.5},
+                endpoint='render.html',splash_headers=headers,
+                )
 
     def parse(self, response):
         item = BilibiliUserScrapyItem()
@@ -86,6 +78,7 @@ class BILIBILIUserSpider(Spider):
         fans = response.xpath("//*[@id=\"n-fs\"]/text()").extract_first()
         level = response.xpath("//*[@id=\"app\"]/div[1]/div[1]/div[2]/div[2]/div/div[2]/div[1]/a[1]/@lvl").extract_first()
         uid = response.xpath("//*[@id=\"page-index\"]/div[2]/div[6]/div[2]/div/div/div[1]/div[1]/span[2]/text()").extract_first()
+        sex = response.xpath("//*[@id=\"h-gender\"]/@class").extract_first()
         
         item['attention'] = int(attention)
         item['birthday'] = response.xpath("//*[@id=\"page-index\"]/div[2]/div[6]/div[2]/div/div/div[2]/div[1]/span[2]/text()").extract_first().strip()
@@ -94,9 +87,12 @@ class BILIBILIUserSpider(Spider):
         item['name'] = response.xpath("//*[@id=\"h-name\"]/text()").extract_first()
         item['place'] = response.xpath("//*[@id=\"page-index\"]/div[2]/div[6]/div[2]/div/div/div[2]/div[2]/a/text()").extract_first()
         item['regtime'] = response.xpath("//*[@id=\"page-index\"]/div[2]/div[6]/div[2]/div/div/div[1]/div[2]/span[2]/text()").extract_first().strip()
-        item['sex'] = response.xpath("//*[@id=\"h-gender\"]/@class").extract_first().split(" ")[2]
         item['uid'] = int(uid)
         item['mid'] = uid
+        if len(sex.split(" ")) == 3:
+            item['sex'] = sex.split(" ")[2]
+        else:
+            item['sex'] = 'null'
         if item['place'] is None:
             item['place'] = "null"
         print("----1----",type(item['uid']))
