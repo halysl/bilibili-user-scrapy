@@ -16,36 +16,50 @@ class BilibiliUserScrapyPipeline(object):
             host=settings.MYSQL_HOST,
             db=settings.MYSQL_DBNAME,
             user=settings.MYSQL_USER,
-            passwd=settings.MYSQL_PASSWD,)
+            passwd=settings.MYSQL_PASSWD,
+            charset='utf8',
+            use_unicode=True)
         self.cursor = self.connect.cursor()
 
     def process_item(self, item, spider):
         try:
-            self.cursor.execute("""select * from bilibili_user_info where id=%s""", item['uid'])
+            self.cursor.execute("""select * from bilibili_user_info where uid=%s""", item['uid'])
             ret = self.cursor.fetchone()
             if ret:
-                sql = """update bilibili_user_info set 
+                self.cursor.execute(
+                    """update bilibili_user_info set 
                     mid=%s,name=%s,sex=%s,
                     regtime=%s,birthday=%s,place=%s,
                     fans=%s,attention=%s,level=%s 
-                    where id=%s"""%(
-                    item["mid"],item["name"],item["sex"],
-                    item["regtime"],item["birthday"],item["place"],
-                    item["fans"],item["attention"],item["level"],
-                    item["uid"])
-                self.cursor.execute(sql)
+                    where uid=%s""",
+                    (item["mid"],
+                     item["name"],
+                     item["sex"],
+                     item["regtime"],
+                     item["birthday"],
+                     item["place"],
+                     item["fans"],
+                     item["attention"],
+                     item["level"],
+                     item["uid"]))
             else:
-                sql = """insert into bilibili_user_info(
-                mid,name,sex,coins,regtime,birthday,place,
-                fans,friend,attention,level,exp) 
-                values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""%(
-                    item['uid'],item["mid"],item["name"],
-                    item["sex"],item["regtime"],item["birthday"],
-                    item["place"],item["fans"],item["attention"],
-                    item["level"])
-                self.cursor.execute(sql)
+                self.cursor.execute(
+                    """insert into bilibili_user_info(uid,mid,name,sex,regtime,birthday,
+                    place,fans,attention,level)
+                    values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+                    (item['uid'],
+                     item["mid"],
+                     item["name"],
+                     item["sex"],
+                     item["regtime"],
+                     item["birthday"],
+                     item["place"],
+                     item["fans"],
+                     item["attention"],
+                     item["level"]))
             self.connect.commit()
         except Exception as error:
+            log.msg(error)
             print("error",error)
         return item
 
