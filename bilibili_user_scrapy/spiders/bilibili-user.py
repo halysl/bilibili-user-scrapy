@@ -57,7 +57,7 @@ class BILIBILIUserSpider(Spider):
     end = 323000449
 
     # 构造url，根据机能分批爬取，未进行分布式爬虫    
-    for i in range(10, 100):
+    for i in range(100, 1000):
         url = "https://space.bilibili.com/"+str(i)+"/#/"
         start_urls.append(url)
     
