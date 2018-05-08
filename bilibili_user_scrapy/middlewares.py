@@ -6,7 +6,24 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+import random
 
+# ip代理
+class ProxyMiddleware(object):
+    proxies = {
+        'http':'http://140.240.81.16:8888',
+        'http':'http://185.107.80.44:3128',
+        'http':'http://203.198.193.3:808',
+        'http':'http://125.88.74.122:85',
+        'http':'http://125.88.74.122:84',
+        'http':'http://125.88.74.122:82',
+        'http':'http://125.88.74.122:83',
+        'http':'http://125.88.74.122:81',
+        'http':'http://123.57.184.70:8081'
+        }
+
+    def process_request(self, request, spider):
+        request.meta['proxy'] = random.choice(proxies)
 
 class BilibiliUserScrapySpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,

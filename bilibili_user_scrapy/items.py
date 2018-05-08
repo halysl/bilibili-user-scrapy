@@ -13,9 +13,9 @@ class BilibiliUserScrapyItem(scrapy.Item):
     # name = scrapy.Field()
     # coins = scrapy.Field()
     # friend = scrapy.Field()
-    #exp = scrapy.Field()
-    uid = scrapy.Field()
-    mid = scrapy.Field()
+    # exp = scrapy.Field()
+    uid = scrapy.Field() # int id
+    mid = scrapy.Field() # str id
     name = scrapy.Field()
     sex = scrapy.Field()    
     regtime = scrapy.Field()
