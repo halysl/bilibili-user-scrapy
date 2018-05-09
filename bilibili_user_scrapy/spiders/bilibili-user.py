@@ -14,9 +14,6 @@ from bilibili_user_scrapy.items import BilibiliUserScrapyItem
 
 reload(sys)
 
-# global uas_list
-# global headers
-# global proxies
 # 获取随机user_agent
 def LoadUserAgents(uafile):
     """
@@ -57,7 +54,7 @@ class BILIBILIUserSpider(Spider):
     end = 323000449
 
     # 构造url，根据机能分批爬取，未进行分布式爬虫    
-    for i in range(100, 1000):
+    for i in range(2000, 100000):
         url = "https://space.bilibili.com/"+str(i)+"/#/"
         start_urls.append(url)
     

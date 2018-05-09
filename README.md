@@ -6,4 +6,4 @@
 - python 版本 v3.6.5
 - scrapy 版本  v1.5.0
 - mysql版本 v5.7.18
-- 实现思路可见博客xxx（待填写）
+- 实现思路可见博客[scrapy with bilibili](https://blog.csdn.net/cloud_strife0/article/details/80249828)
