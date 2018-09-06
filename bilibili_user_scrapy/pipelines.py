@@ -8,7 +8,7 @@ import pymysql
 from scrapy import log
 
 from bilibili_user_scrapy import settings
-from bilibili_user_scrapy.items import BilibiliUserScrapyItem
+
 
 class BilibiliUserScrapyPipeline(object):
     def __init__(self):

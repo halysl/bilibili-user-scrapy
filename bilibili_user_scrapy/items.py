@@ -18,7 +18,7 @@ class BilibiliUserScrapyItem(scrapy.Item):
     mid = scrapy.Field() # str id
     name = scrapy.Field()
     sex = scrapy.Field()    
-    regtime = scrapy.Field()
+    reg_time = scrapy.Field()
     birthday = scrapy.Field()
     place = scrapy.Field()
     fans = scrapy.Field()    
