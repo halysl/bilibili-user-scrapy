@@ -10,17 +10,17 @@ import scrapy
 
 class BilibiliUserScrapyItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    # coins = scrapy.Field()
-    # friend = scrapy.Field()
-    # exp = scrapy.Field()
-    uid = scrapy.Field() # int id
-    mid = scrapy.Field() # str id
+    uid = scrapy.Field()
     name = scrapy.Field()
-    sex = scrapy.Field()    
+    sex = scrapy.Field()
     reg_time = scrapy.Field()
     birthday = scrapy.Field()
-    place = scrapy.Field()
-    fans = scrapy.Field()    
+    city = scrapy.Field()
+
+    exp = scrapy.Field()
+    level = scrapy.Field()
+    coins = scrapy.Field()
+
+    friend = scrapy.Field()
     attention = scrapy.Field()
-    level = scrapy.Field()    
+    fans = scrapy.Field()

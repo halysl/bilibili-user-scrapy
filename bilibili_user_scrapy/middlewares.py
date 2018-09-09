@@ -8,8 +8,11 @@
 from scrapy import signals
 import random
 
-# ip代理
+
 class ProxyMiddleware(object):
+    """
+    代理中间件
+    """
     proxies = {
         'http':'http://140.240.81.16:8888',
         'http':'http://185.107.80.44:3128',
@@ -24,6 +27,7 @@ class ProxyMiddleware(object):
 
     def process_request(self, request, spider):
         request.meta['proxy'] = random.choice(proxies)
+
 
 class BilibiliUserScrapySpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
