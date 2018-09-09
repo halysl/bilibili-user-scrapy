@@ -9,6 +9,7 @@ name = "pypi"
 scrapy = "*"
 scrapy-splash = "*"
 pymysql = "*"
+sqlalchemy = "*"
 
 [requires]
 python_version = "2.7"
